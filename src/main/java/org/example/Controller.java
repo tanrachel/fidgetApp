@@ -16,23 +16,7 @@ public class Controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e){
 //        triggers reading from file and updates the GUI to reflect the content
-        if (e.getActionCommand() == "read"){
-            String fileContent = m.readTextFile(v.getReadingFileName());
-            v.displayText(fileContent);
-        } else if (e.getActionCommand() == "write") {
-//            triggers writing and updates the userinput text area to show what was written to the file
-            StringBuilder sb = new StringBuilder();
-            if (m.checkIfFileExists(v.getWritingFileName())){
-                String currentFileContent = m.readTextFile(v.getWritingFileName());
-                sb.append(currentFileContent);
-            }
-//            gets user's input -- commented out as it is not required from specification
-//            String userInput = v.getUserInput();
-            String contentFromReadFile = v.getFirst3LinesOfReadingFile();
-            sb.append(contentFromReadFile);
-            m.writeTextFile(v.getWritingFileName(),sb.toString());
-            v.userInputText(m.readTextFile(v.getWritingFileName()));
-        }
+
     }
 
 
