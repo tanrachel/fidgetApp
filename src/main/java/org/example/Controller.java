@@ -25,7 +25,7 @@ public class Controller implements ActionListener {
         if(choiceFromComboBox.equals("weather")){
             v.displayWeather(m.weatherClass);
         } else if (choiceFromComboBox.equals("news")) {
-            v.displayNews();
+            v.displayNews(m.newsClass);
         }
     }
 }

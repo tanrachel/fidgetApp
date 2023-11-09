@@ -5,12 +5,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Base64;
 
 public class View extends JFrame {
     private JFrame mainFrame;
@@ -39,7 +37,7 @@ public class View extends JFrame {
 
 
     private void buildGUI(){
-        mainFrame = new JFrame("WeightedGrades");
+        mainFrame = new JFrame("Fidgety");
         mainFrame.setPreferredSize(new Dimension(600,600));
         mainFrame.setLayout(new BoxLayout(mainFrame.getContentPane(), BoxLayout.Y_AXIS));
         JPanel choicePanel = createChoicePanel();
@@ -91,10 +89,36 @@ public class View extends JFrame {
         this.mainFrame.revalidate();
         this.mainFrame.repaint();
     }
-    public void displayNews(){
+    public void displayNews(News news){
         if(this.contentPanel != null){
             this.contentPanel.removeAll();
         }
+        JPanel newsPanel = new JPanel();
+        newsPanel.setLayout(new BoxLayout(newsPanel, BoxLayout.PAGE_AXIS));
+        NewsPost currentNews = news.popOutNewsFromList();
+
+        JLabel titleLabel = new JLabel(currentNews.getTitle());
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18)); // Bigger font for the title
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centered horizontally
+        newsPanel.add(titleLabel);
+
+        newsPanel.add(Box.createRigidArea(new Dimension(0, 10))); // 10 pixels of vertical spacing
+        // Create and add the description label
+        JLabel descriptionLabel = new JLabel(currentNews.getDescription());
+        descriptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centered horizontally
+        newsPanel.add(descriptionLabel);
+
+        // Create and add spacing
+        newsPanel.add(Box.createRigidArea(new Dimension(0, 10))); // 10 pixels of vertical spacing
+
+        // Create and add the URL label
+        JLabel urlLabel = new JLabel(currentNews.getUrl());
+        urlLabel.setForeground(Color.BLUE); // Make the URL look like a hyperlink
+        urlLabel.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Change cursor on hover
+        urlLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centered horizontally
+        newsPanel.add(urlLabel);
+
+        this.contentPanel.add(newsPanel);
         refreshPage();
     }
     public void registerController(Controller controller) {
