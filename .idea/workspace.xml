@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e00cbcf4-4e94-43a1-bfde-617805b46ae1" name="Changes" comment="" />
+    <list default="true" id="e00cbcf4-4e94-43a1-bfde-617805b46ae1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Weather.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Weather.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,6 +27,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
@@ -62,6 +72,15 @@
     <key name="CreateTestDialog.RecentsKey">
       <recent name="org.example" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Run Main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="org.example.Main" />
+      <module name="final_project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

@@ -1,92 +1,109 @@
 package org.example;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Base64;
 
 public class View extends JFrame {
-    // variables that we would need to refer to in order to add/remove panels from
-    private JTextArea userInput = new JTextArea();
-    private JTextArea display = new JTextArea();
-    private JButton read = new JButton("Read From File"), write = new JButton("Write to File");
-    private JTextField ReadingFileName = new JTextField(20);
-    private JTextField WritingFileName = new JTextField(20);
-    private JLabel readingPrompt = new JLabel("Read from Filename", JLabel.RIGHT);
-    private JLabel writingPrompt = new JLabel("Write to Filename", JLabel.RIGHT);
-
-    private JPanel commands = new JPanel();
-//    allows passing file names from the GUI to controller
-    public String getReadingFileName(){
-        return this.ReadingFileName.getText();
-    }
-    public String getWritingFileName(){
-        return this.WritingFileName.getText();
-    }
-    public String getUserInput(){
-        return this.userInput.getText();
-    }
-    public String getFirst3LinesOfReadingFile(){
-        String[] lines = this.display.getText().split("\n");
-        StringBuilder sb = new StringBuilder();
-        for(int i=0;i<lines.length;i++){
-            if (i==4){
-                return sb.toString();
-            }
-            sb.append(lines[i]+"\n");
-        }
-        return sb.toString();
-    }
-//    lengthen the textArea in GUI
+    private JFrame mainFrame;
+    private JComboBox choiceBox;
+    private JPanel contentPanel;
     View(){
         buildGUI();
-        userInput.setRows(40);
-        display.setRows(40);
+    }
+    private JPanel createChoicePanel() {
+        // Spinner to determine how many input panels to generate
+        JPanel choicePanel = new JPanel();
+        String[] supportedFeatures = {"news", "weather", "reddit"};
+        this.choiceBox = new JComboBox(supportedFeatures);
+        JLabel comboBoxTitle = new JLabel("Select your fun: ");
+//        JLabel comboBoxChoice = new JLabel(comboBox.getActionCommand());
+        choicePanel.add(comboBoxTitle);
+        choicePanel.add(this.choiceBox);
 
+        choicePanel.setPreferredSize(new Dimension(180,100));
+        return choicePanel;
+    }
+    public String getChoice(){
+        String selectedOption = (String) this.choiceBox.getSelectedItem();
+        return selectedOption;
     }
 
-    // coordinates all the sub panels in the main frame
+
     private void buildGUI(){
-//        autofill with default valu
-        ReadingFileName.setText("file.txt");
-        WritingFileName.setText("file.txt");
-        read.setActionCommand("read");
-        write.setActionCommand("write");
-        commands.setLayout(new GridLayout(3,2,1,1));
-        commands.add(readingPrompt);
-        commands.add(writingPrompt);
-        commands.add(ReadingFileName);
-        commands.add(WritingFileName);
-        commands.add(read);
-        commands.add(write);
-        JPanel displayPanel = new JPanel(new GridLayout(1,2));
-        displayPanel.add(new JScrollPane(display));
-        displayPanel.add(new JScrollPane(userInput));
-        displayPanel.setPreferredSize(new Dimension(400,300));
+        mainFrame = new JFrame("WeightedGrades");
+        mainFrame.setPreferredSize(new Dimension(600,600));
+        mainFrame.setLayout(new BoxLayout(mainFrame.getContentPane(), BoxLayout.Y_AXIS));
+        JPanel choicePanel = createChoicePanel();
+        mainFrame.add(choicePanel);
+        contentPanel = new JPanel();
+        mainFrame.add(contentPanel);
 
+        mainFrame.setVisible(true);
+        mainFrame.pack();
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    public void displayWeather(Weather weather){
+        if(this.contentPanel != null){
+            this.contentPanel.removeAll();
+        }
+        JPanel weatherPanel = new JPanel();
+        weatherPanel.setLayout(new BoxLayout(weatherPanel, BoxLayout.Y_AXIS));
 
-        JFrame mainframe = new JFrame();
-        mainframe.setPreferredSize(new Dimension(400,400));
-        mainframe.setLayout(new BoxLayout(mainframe.getContentPane(),BoxLayout.Y_AXIS));
-        mainframe.add(commands);
-        mainframe.add(displayPanel);
+        try {
+            // Replace "your_image_url_here" with the actual image URL
+            URL imageUrl = new URL(weather.getWeatherImageUrl());
+            BufferedImage image = ImageIO.read(imageUrl);
+            JLabel imageLabel = new JLabel(new ImageIcon(image));
+            weatherPanel.add(imageLabel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        mainframe.pack();
-        mainframe.setVisible(true);
-        mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel tempPanel = new JPanel();
+        tempPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JLabel labelComponent = new JLabel("Temperature: ");
+        tempPanel.add(labelComponent);
+        tempPanel.add(new JTextField(weather.getWeatherTemp()));
+
+        JPanel feelsLikePanel = new JPanel();
+        feelsLikePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JLabel feelsLikelabelComponent = new JLabel("Feels Like: ");
+        feelsLikePanel.add(feelsLikelabelComponent);
+        feelsLikePanel.add(new JTextField(weather.getWeatherFeelsLike()));
+
+        weatherPanel.add(tempPanel);
+        weatherPanel.add(feelsLikePanel);
+        this.contentPanel.add(weatherPanel);
+        refreshPage();
     }
-//    allows refreshing of text area in the GUI
-    public void displayText(String input){
-        this.display.setText("");
-        this.display.append(input);
+    private void refreshPage(){
+        this.contentPanel.revalidate();
+        this.contentPanel.repaint();
+        this.mainFrame.revalidate();
+        this.mainFrame.repaint();
     }
-    public void userInputText(String input){
-        this.userInput.setText("");
-        this.userInput.append(input);
+    public void displayNews(){
+        if(this.contentPanel != null){
+            this.contentPanel.removeAll();
+        }
+        refreshPage();
     }
-    // registers controller
     public void registerController(Controller controller) {
-        read.addActionListener(controller);
-        write.addActionListener(controller);
+        choiceBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.actionPerformedForComboBox(e);
+            }
+        });
 
     }
 }

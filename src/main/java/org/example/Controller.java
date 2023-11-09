@@ -20,4 +20,12 @@ public class Controller implements ActionListener {
     }
 
 
+    public void actionPerformedForComboBox(ActionEvent e) {
+        String choiceFromComboBox = v.getChoice();
+        if(choiceFromComboBox.equals("weather")){
+            v.displayWeather(m.weatherClass);
+        } else if (choiceFromComboBox.equals("news")) {
+            v.displayNews();
+        }
+    }
 }
