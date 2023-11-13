@@ -1,19 +1,36 @@
 package org.example;
-
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.CountDownLatch;
+
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+
 
 public class View extends JFrame {
     private JFrame mainFrame;
     private JComboBox choiceBox;
     private JPanel contentPanel;
+    private JButton newsRefreshButton;
+    private JButton redditRefreshButton;
+    private MediaView redditVideoViewer = new MediaView();
+    private JFXPanel jfxPanel = new JFXPanel();
+
     View(){
         buildGUI();
     }
@@ -27,7 +44,8 @@ public class View extends JFrame {
         choicePanel.add(comboBoxTitle);
         choicePanel.add(this.choiceBox);
 
-        choicePanel.setPreferredSize(new Dimension(180,100));
+        choicePanel.setPreferredSize(new Dimension(180,50));
+        choicePanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
         return choicePanel;
     }
     public String getChoice(){
@@ -38,12 +56,12 @@ public class View extends JFrame {
 
     private void buildGUI(){
         mainFrame = new JFrame("Fidgety");
-        mainFrame.setPreferredSize(new Dimension(600,600));
+        mainFrame.setPreferredSize(new Dimension(800,700));
         mainFrame.setLayout(new BoxLayout(mainFrame.getContentPane(), BoxLayout.Y_AXIS));
         JPanel choicePanel = createChoicePanel();
         mainFrame.add(choicePanel);
-        contentPanel = new JPanel();
-        mainFrame.add(contentPanel);
+        this.contentPanel = new JPanel();
+        mainFrame.add(this.contentPanel);
 
         mainFrame.setVisible(true);
         mainFrame.pack();
@@ -89,36 +107,132 @@ public class View extends JFrame {
         this.mainFrame.revalidate();
         this.mainFrame.repaint();
     }
-    public void displayNews(News news){
-        if(this.contentPanel != null){
+    public void displayNews(News news) {
+        if (this.contentPanel != null) {
             this.contentPanel.removeAll();
         }
+
         JPanel newsPanel = new JPanel();
-        newsPanel.setLayout(new BoxLayout(newsPanel, BoxLayout.PAGE_AXIS));
+        newsPanel.setLayout(new BoxLayout(newsPanel, BoxLayout.Y_AXIS));
         NewsPost currentNews = news.popOutNewsFromList();
 
-        JLabel titleLabel = new JLabel(currentNews.getTitle());
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18)); // Bigger font for the title
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centered horizontally
-        newsPanel.add(titleLabel);
+        JTextArea textArea = new JTextArea(currentNews.getTitle()+"\n\n");
+        textArea.append(currentNews.getDescription()+"\n\n");
+        textArea.append(currentNews.getUrl());
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(500,400));
+        newsPanel.add(scrollPane);
 
-        newsPanel.add(Box.createRigidArea(new Dimension(0, 10))); // 10 pixels of vertical spacing
-        // Create and add the description label
-        JLabel descriptionLabel = new JLabel(currentNews.getDescription());
-        descriptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centered horizontally
-        newsPanel.add(descriptionLabel);
+        // Create a panel for the button
+        JPanel buttonPanel = new JPanel();
+        this.newsRefreshButton = new JButton("Next");
+        buttonPanel.add(this.newsRefreshButton);
 
-        // Create and add spacing
-        newsPanel.add(Box.createRigidArea(new Dimension(0, 10))); // 10 pixels of vertical spacing
-
-        // Create and add the URL label
-        JLabel urlLabel = new JLabel(currentNews.getUrl());
-        urlLabel.setForeground(Color.BLUE); // Make the URL look like a hyperlink
-        urlLabel.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Change cursor on hover
-        urlLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centered horizontally
-        newsPanel.add(urlLabel);
+        // Add the button panel to the main newsPanel
+        newsPanel.add(buttonPanel);
 
         this.contentPanel.add(newsPanel);
+        refreshPage();
+    }
+    private void resizeVideo(double width, double height) {
+        Scene scene = jfxPanel.getScene();
+        if (scene != null) {
+            scene.getRoot().setStyle(String.format("-fx-background-color: black; -fx-background-size: %f %f;", width, height));
+        }
+    }
+
+    private void initFX(RedditObject video) {
+        Media media = new Media(video.getRedditPostURL());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        if(jfxPanel.getScene()!= null){
+            redditVideoViewer.getMediaPlayer().stop();
+        }
+
+        redditVideoViewer.setMediaPlayer(mediaPlayer);
+
+        double widthscale = (500 / video.getMedia_width());
+        double heightscale = (500 / video.getMedia_height());
+        redditVideoViewer.setFitWidth(video.getMedia_width()*widthscale);
+        redditVideoViewer.setFitHeight(video.getMedia_height()*heightscale);
+
+        StackPane root = new StackPane(redditVideoViewer);
+        Scene scene = new Scene(root, 500, 500);
+
+        jfxPanel.setScene(scene);
+        mediaPlayer.play();
+    }
+
+    private JPanel displayRedditVideo(RedditObject currentPost){
+
+        JPanel redditPanel = new JPanel();
+//        redditPanel.setPreferredSize(new Dimension((int)currentPost.getMedia_width(), (int) currentPost.getMedia_height()));
+        redditPanel.setLayout(new BoxLayout(redditPanel, BoxLayout.Y_AXIS));
+
+        redditPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                resizeVideo(redditPanel.getWidth(), redditPanel.getHeight());
+            }
+        });
+
+        // Ensure initFX is called only once
+        Platform.runLater(() -> {
+            initFX(currentPost);});
+
+        redditPanel.add(jfxPanel);
+        redditPanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
+        return redditPanel;
+    }
+
+    private JPanel displayRedditImage(RedditObject currentPost){
+        JPanel redditPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        redditPanel.setLayout(new BoxLayout(redditPanel, BoxLayout.Y_AXIS));
+        JLabel title = new JLabel(currentPost.getRedditPostTitle());
+        redditPanel.add(title);
+        JLabel label = new JLabel();
+
+        try {
+            URL imageUrl = new URL(currentPost.getRedditPostURL());
+            Image image = ImageIO.read(imageUrl);
+
+            image = image.getScaledInstance(400,400 , Image.SCALE_SMOOTH);
+
+            label.setIcon(new ImageIcon(image));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        redditPanel.add(label);
+
+        return redditPanel;
+    }
+
+    public void displayReddit(Reddit reddit) {
+        JPanel redditPanel;
+        if (this.contentPanel != null) {
+            this.contentPanel.removeAll();
+        }
+        RedditObject currentPost = reddit.popOutPostFromList();
+        boolean isVideo = currentPost.isVideo();
+        if (isVideo){
+            redditPanel = displayRedditVideo(currentPost);
+            System.out.println(currentPost.toString());
+        }else{
+            redditPanel = displayRedditImage(currentPost);
+            System.out.println(currentPost.toString());
+
+        }
+
+        // Create a panel for the button
+        JPanel buttonPanel = new JPanel();
+        this.redditRefreshButton = new JButton("Next");
+        buttonPanel.add(redditRefreshButton);
+        redditPanel.add(buttonPanel);
+
+        this.contentPanel.add(redditPanel);
         refreshPage();
     }
     public void registerController(Controller controller) {
@@ -128,6 +242,23 @@ public class View extends JFrame {
                 controller.actionPerformedForComboBox(e);
             }
         });
-
+    }
+    public void registerRedditDynamicController(Controller controller) {
+        redditRefreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.actionPerformedForRedditRefresh(e);
+            }
+        });
+    }
+    public void registerNewsDynamicController(Controller controller) {
+        newsRefreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.actionPerformedForNewsRefresh(e);
+            }
+        });
     }
 }
+
+

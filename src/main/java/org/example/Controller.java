@@ -26,6 +26,23 @@ public class Controller implements ActionListener {
             v.displayWeather(m.weatherClass);
         } else if (choiceFromComboBox.equals("news")) {
             v.displayNews(m.newsClass);
+            v.registerNewsDynamicController(this);
+
+        } else if (choiceFromComboBox.equals("reddit")) {
+            v.displayReddit(m.redditClass);
+            v.registerRedditDynamicController(this);
         }
+    }
+    public void actionPerformedForRedditRefresh(ActionEvent e){
+        v.displayReddit(m.redditClass);
+        v.registerRedditDynamicController(this);
+
+
+    }
+    public void actionPerformedForNewsRefresh(ActionEvent e){
+        v.displayNews(m.newsClass);
+        v.registerNewsDynamicController(this);
+
+
     }
 }
