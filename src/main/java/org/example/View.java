@@ -37,7 +37,7 @@ public class View extends JFrame {
     private JPanel createChoicePanel() {
         // Spinner to determine how many input panels to generate
         JPanel choicePanel = new JPanel();
-        String[] supportedFeatures = {"news", "weather", "reddit"};
+        String[] supportedFeatures = {"-","news", "weather", "reddit","i'm bored"};
         this.choiceBox = new JComboBox(supportedFeatures);
         JLabel comboBoxTitle = new JLabel("Select your fun: ");
 //        JLabel comboBoxChoice = new JLabel(comboBox.getActionCommand());
@@ -45,8 +45,11 @@ public class View extends JFrame {
         choicePanel.add(this.choiceBox);
 
         choicePanel.setPreferredSize(new Dimension(180,50));
-        choicePanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
+//        choicePanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
         return choicePanel;
+    }
+    public void removeInitialChoiceComboBox(){
+        this.choiceBox.removeItem("-");
     }
     public String getChoice(){
         String selectedOption = (String) this.choiceBox.getSelectedItem();
@@ -61,17 +64,29 @@ public class View extends JFrame {
         JPanel choicePanel = createChoicePanel();
         mainFrame.add(choicePanel);
         this.contentPanel = new JPanel();
+        this.contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        this.contentPanel.add(Box.createVerticalGlue());
+
+        JLabel welcomeLabel = new JLabel("Welcome to Fidgety");
+        welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.contentPanel.add(welcomeLabel);
+        this.contentPanel.setVisible(true);
         mainFrame.add(this.contentPanel);
+        contentPanel.add(Box.createVerticalGlue());
 
         mainFrame.setVisible(true);
         mainFrame.pack();
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    public void displayWeather(Weather weather){
-        if(this.contentPanel != null){
+
+    public void displayWeather(Weather weather) {
+        if (this.contentPanel != null) {
             this.contentPanel.removeAll();
         }
+
         JPanel weatherPanel = new JPanel();
+        weatherPanel.add(Box.createVerticalGlue());
+
         weatherPanel.setLayout(new BoxLayout(weatherPanel, BoxLayout.Y_AXIS));
 
         try {
@@ -84,23 +99,72 @@ public class View extends JFrame {
             e.printStackTrace();
         }
 
-        JPanel tempPanel = new JPanel();
-        tempPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        JLabel labelComponent = new JLabel("Temperature: ");
-        tempPanel.add(labelComponent);
-        tempPanel.add(new JTextField(weather.getWeatherTemp()));
+        // Temperature Panel
+        JPanel tempPanel = new JPanel(new GridLayout(2,4,10,10));
 
-        JPanel feelsLikePanel = new JPanel();
-        feelsLikePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        JLabel feelsLikelabelComponent = new JLabel("Feels Like: ");
-        feelsLikePanel.add(feelsLikelabelComponent);
-        feelsLikePanel.add(new JTextField(weather.getWeatherFeelsLike()));
+        tempPanel.add(new JPanel());
+        JLabel tempLabel = new JLabel("Temperature: ");
+        tempLabel.setHorizontalAlignment(JLabel.RIGHT);
+        tempPanel.add(tempLabel);
+        tempPanel.add(new JTextField(weather.getWeatherTemp()));
+        tempPanel.add(new JPanel());
+
+        tempPanel.add(new JPanel());
+        JLabel feelsLikeLabel = new JLabel("Feels Like: ");
+        feelsLikeLabel.setHorizontalAlignment(JLabel.RIGHT);
+        tempPanel.add(feelsLikeLabel);
+        tempPanel.add(new JTextField(weather.getWeatherFeelsLike()));
+        tempPanel.add(new JPanel());
 
         weatherPanel.add(tempPanel);
-        weatherPanel.add(feelsLikePanel);
+        weatherPanel.add(Box.createVerticalGlue());
         this.contentPanel.add(weatherPanel);
         refreshPage();
     }
+
+//    public void displayWeather(Weather weather) {
+//        if (this.contentPanel != null) {
+//            this.contentPanel.removeAll();
+//        }
+//
+//        JPanel weatherPanel = new JPanel();
+//        weatherPanel.add(Box.createVerticalGlue());
+//
+//        weatherPanel.setLayout(new BoxLayout(weatherPanel, BoxLayout.Y_AXIS));
+//
+//        try {
+//            // Replace "your_image_url_here" with the actual image URL
+//            URL imageUrl = new URL(weather.getWeatherImageUrl());
+//            BufferedImage image = ImageIO.read(imageUrl);
+//            JLabel imageLabel = new JLabel(new ImageIcon(image));
+//            weatherPanel.add(imageLabel);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        // Temperature Panel
+//        JPanel tempPanel = new JPanel();
+//        tempPanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
+//        tempPanel.setSize(new Dimension(80,30));
+//        JLabel tempLabel = new JLabel("Temperature: ");
+//        tempPanel.add(tempLabel);
+//        tempPanel.add(new JTextField(weather.getWeatherTemp()));
+//        weatherPanel.add(tempPanel);
+//
+//        // Feels Like Panel
+//        JPanel feelsLikePanel = new JPanel();
+//
+//        feelsLikePanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
+//        JLabel feelsLikeLabel = new JLabel("Feels Like: ");
+//        feelsLikeLabel.setSize(new Dimension(80,30));
+//
+//        feelsLikePanel.add(feelsLikeLabel);
+//        feelsLikePanel.add(new JTextField(weather.getWeatherFeelsLike()));
+//        weatherPanel.add(feelsLikePanel);
+//        weatherPanel.add(Box.createVerticalGlue());
+//        this.contentPanel.add(weatherPanel);
+//        refreshPage();
+//    }
     private void refreshPage(){
         this.contentPanel.revalidate();
         this.contentPanel.repaint();
@@ -183,7 +247,7 @@ public class View extends JFrame {
             initFX(currentPost);});
 
         redditPanel.add(jfxPanel);
-        redditPanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
+//        redditPanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
         return redditPanel;
     }
 

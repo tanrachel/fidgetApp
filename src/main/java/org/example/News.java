@@ -10,7 +10,7 @@ public class News implements JSONObjects{
     private String url;
     private List<NewsPost> listOfNewsPost;
     public News(String newsApiKey){
-        this.url = "https://newsapi.org/v2/everything?q=keyword&apiKey="+newsApiKey;
+        this.url = "https://newsapi.org/v2/top-headlines?country=us&apiKey="+newsApiKey;
     }
     public String getUrl(){
         return this.url;

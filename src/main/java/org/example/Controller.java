@@ -32,6 +32,7 @@ public class Controller implements ActionListener {
             v.displayReddit(m.redditClass);
             v.registerRedditDynamicController(this);
         }
+        v.removeInitialChoiceComboBox();
     }
     public void actionPerformedForRedditRefresh(ActionEvent e){
         v.displayReddit(m.redditClass);

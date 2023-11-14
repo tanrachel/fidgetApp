@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e00cbcf4-4e94-43a1-bfde-617805b46ae1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Testing.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/final_project_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Reddit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Reddit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/News.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/News.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/View.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +53,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "onboarding.tips.debug.path": "/Users/racheltan/Documents/NEU/INFO 5100/Java Assignments/final_project/src/main/java/org/example/Main.java",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.lookFeel",
@@ -104,7 +102,10 @@
       <updated>1699310702582</updated>
       <workItem from="1699310703631" duration="4056000" />
       <workItem from="1699315428693" duration="6787000" />
-      <workItem from="1699581583474" duration="13275000" />
+      <workItem from="1699581583474" duration="13690000" />
+      <workItem from="1699914939070" duration="77000" />
+      <workItem from="1699915023265" duration="28000" />
+      <workItem from="1699915059027" duration="4260000" />
     </task>
     <servers />
   </component>
