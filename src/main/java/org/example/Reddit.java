@@ -18,7 +18,15 @@ public class Reddit implements JSONObjects {
     public List<RedditObject> getRedditListing(){
         return this.redditPostList;
     }
-
+    public RedditObject popOutPostFromList(){
+        if (redditPostList.size() > 1){
+            RedditObject currentPost = redditPostList.get(0);
+            redditPostList.remove(0);
+            return currentPost;
+        }else{
+            return redditPostList.get(0);
+        }
+    }
     @Override
     public void unmarshallJson(String rawJson) {
         try {
@@ -36,14 +44,14 @@ public class Reddit implements JSONObjects {
                         RedditVideo redditVideo = secureMedia.getRedditVideo();
                         if (redditVideo != null) {
                             String fallbackUrl = redditVideo.getFallbackUrl();
-                            RedditObject redditObject = new RedditObject(title, fallbackUrl);
+                            RedditObject redditObject = new RedditObject(title, fallbackUrl, redditVideo.getHeight() ,redditVideo.getWidth(), postData.getIsVideo());
                             redditPostList.add(redditObject);
 
                         }
                     }
                 }else{
                     String imageURL = postData.getDestUrl();
-                    RedditObject redditObject = new RedditObject(title, imageURL);
+                    RedditObject redditObject = new RedditObject(title, imageURL,0,0, false);
                     redditPostList.add(redditObject);
 
                 }
@@ -80,6 +88,9 @@ class RedditListing {
 class RedditObject{
     private String title;
     private String media_url;
+    private float media_height;
+    private float media_width;
+    private boolean isVideo;
 
     public String getRedditPostTitle(){
         return this.title;
@@ -87,9 +98,31 @@ class RedditObject{
     public String getRedditPostURL(){
         return this.media_url;
     }
-    public RedditObject(String title, String url){
+
+    public float getMedia_height() {
+        return media_height;
+    }
+
+    public float getMedia_width() {
+        return media_width;
+    }
+
+    public boolean isVideo() {
+        return isVideo;
+    }
+
+    public RedditObject(String title, String url, float height, float width, boolean isvideo){
         this.title = title;
         this.media_url = url;
+        this.media_height = height;
+        this.media_width = width;
+        this.isVideo = isvideo;
+    }
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("title: "+this.title + " url: "+ this.media_url+"\n");
+        return sb.toString();
     }
 }
 
@@ -173,9 +206,20 @@ class SecureMedia {
 class RedditVideo {
     @JsonProperty("fallback_url")
     private String fallbackUrl;
+    @JsonProperty("height")
+    private float height;
+    @JsonProperty("width")
+    private float width;
 
     public String getFallbackUrl() {
         return fallbackUrl;
+    }
+    public float getHeight() {
+        return height;
+    }
+
+    public float getWidth() {
+        return width;
     }
 
     public void setFallbackUrl(String fallbackUrl) {

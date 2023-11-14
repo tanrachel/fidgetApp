@@ -15,6 +15,7 @@ public class Main {
         Weather weather = new Weather(apiKey);
         News news = new News(newsApiKey);
 
+
         try {
             // Make a request to the Reddit API and print the response
 
@@ -24,13 +25,19 @@ public class Main {
             weather.unmarshallJson(weatherResponse);
             String newsResponse = httpClient.makeAPIRequest(news.getUrl());
             news.unmarshallJson(newsResponse);
-            System.out.println(reddit);
-            System.out.println("----------------------------");
-            System.out.println(weather);
-            System.out.println("-----------------------------");
-            System.out.println(news);
+//            System.out.println(reddit);
+//            System.out.println("----------------------------");
+//            System.out.println(weather);
+//            System.out.println("-----------------------------");
+//            System.out.println(news);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Model m = new Model(reddit,news,weather);
+        View v = new View();
+        Controller c = new Controller(m,v);
+        v.registerController(c);
     }
+
+
 }

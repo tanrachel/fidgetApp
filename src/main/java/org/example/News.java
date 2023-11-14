@@ -10,10 +10,19 @@ public class News implements JSONObjects{
     private String url;
     private List<NewsPost> listOfNewsPost;
     public News(String newsApiKey){
-        this.url = "https://newsapi.org/v2/everything?q=keyword&apiKey="+newsApiKey;
+        this.url = "https://newsapi.org/v2/top-headlines?country=us&apiKey="+newsApiKey;
     }
     public String getUrl(){
         return this.url;
+    }
+    public NewsPost popOutNewsFromList(){
+        if (listOfNewsPost.size() > 1){
+            NewsPost currentPost = listOfNewsPost.get(0);
+            listOfNewsPost.remove(0);
+            return currentPost;
+        }else{
+            return listOfNewsPost.get(0);
+        }
     }
     @Override
     public void unmarshallJson(String rawJson) {
@@ -41,7 +50,6 @@ public class News implements JSONObjects{
 class NewsJson{
    @JsonProperty("articles")
    private List<NewsPost> listOfNewsPosts;
-
    public List<NewsPost> getListOfNewsPosts() {
         return listOfNewsPosts;
    }
