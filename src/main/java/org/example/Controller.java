@@ -20,4 +20,30 @@ public class Controller implements ActionListener {
     }
 
 
+    public void actionPerformedForComboBox(ActionEvent e) {
+        String choiceFromComboBox = v.getChoice();
+        if(choiceFromComboBox.equals("weather")){
+            v.displayWeather(m.weatherClass);
+        } else if (choiceFromComboBox.equals("news")) {
+            v.displayNews(m.newsClass);
+            v.registerNewsDynamicController(this);
+
+        } else if (choiceFromComboBox.equals("reddit")) {
+            v.displayReddit(m.redditClass);
+            v.registerRedditDynamicController(this);
+        }
+        v.removeInitialChoiceComboBox();
+    }
+    public void actionPerformedForRedditRefresh(ActionEvent e){
+        v.displayReddit(m.redditClass);
+        v.registerRedditDynamicController(this);
+
+
+    }
+    public void actionPerformedForNewsRefresh(ActionEvent e){
+        v.displayNews(m.newsClass);
+        v.registerNewsDynamicController(this);
+
+
+    }
 }

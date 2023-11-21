@@ -21,6 +21,15 @@ public class Weather implements JSONObjects{
     public WeatherObject getWeather(){
         return this.weather;
     }
+    public String getWeatherImageUrl(){
+        return weather.getIcon();
+    }
+    public String getWeatherTemp(){
+        return String.valueOf(weather.getTemp());
+    }
+    public String getWeatherFeelsLike(){
+        return String.valueOf(weather.getFeels_like());
+    }
     @Override
     public void unmarshallJson(String rawJson) {
         try {
