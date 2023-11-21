@@ -14,17 +14,17 @@ social media and get carried away from their tasks.
 NEWS_API_KEY={news api key: https://newsapi.org/}
 W_API_KEY={weatheropenapi key: https://openweathermap.org/api}
 ```
-###3. Ensure you have maven installed
+### 3. Ensure you have maven installed
 ```
 brew install maven
 ```
-###4. Run the following command in the root directory
+### 4. Run the following command in the root directory
 ```
 *ensure you have set it executable: chmod +x run-fidgetapp.sh* 
 
 ./run-fidgetapp.sh
 ```
-###5. Enjoy the app!
+### 5. Enjoy the app!
 You should be able to trigger the app to launch using 
 ```
 run-fidgetapp
