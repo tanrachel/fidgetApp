@@ -1,0 +1,36 @@
+@startuml
+class View {
+
+    -JFrame mainFrame
+    -JComboBox choiceBox
+    -JPanel contentPanel
+    -JButton newsRefreshButton
+    -JButton redditRefreshButton
+    -MediaView redditVideoViewer
+    -JFXPanel jfxPanel
+    +removeInitialChoiceComboBox()
+    +getChoice()
+    +displayWeather(Weather weather)
+    +displayNews(News news)
+    +displayReddit(Reddit reddit)
+    +registerController(Controller controller)
+    +registerRedditDynamicController(Controller controller)
+    +registerNewsDynamicController(Controller controller)
+}
+
+class Controller {
+    -View view
+    -Model model
+    +actionPerformed(ActionEvent e)
+    +actionPerformedForComboBox(ActionEvent e)
+    +actionPerformedForRedditDynamicButton(ActionEvent e)
+    +actionPerformedForNewsDynamicButton(ActionEvent e)
+}
+
+class Model {
+    -Weather weather
+    -News news
+    -Reddit reddit
+}
+
+@enduml
