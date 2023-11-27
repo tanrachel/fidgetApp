@@ -7,9 +7,11 @@ import java.awt.event.ActionListener;
 public class Controller implements ActionListener {
     private View v;
     private Model m;
-    public Controller(Model m, View v){
+    private HttpClient httpClient;
+    public Controller(Model m, View v, HttpClient httpClient){
         this.m = m;
         this.v = v;
+        this.httpClient = httpClient;
     }
 
     // gets values from user input and calculates weighted grades before returning it View
@@ -19,11 +21,22 @@ public class Controller implements ActionListener {
 
     }
 
-
+    public void actionPerformedForWeatherComboBox(ActionEvent e){
+        String weatherLocation = v.getWeatherLocation();
+        m.weatherClass.setLocation(weatherLocation);
+        try {
+            String weatherResponse = httpClient.makeAPIRequest(m.weatherClass.getUrl());
+            m.weatherClass.unmarshallJson(weatherResponse);
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+        v.refreshWeatherPage(m.weatherClass);
+    }
     public void actionPerformedForComboBox(ActionEvent e) {
         String choiceFromComboBox = v.getChoice();
         if(choiceFromComboBox.equals("weather")){
             v.displayWeather(m.weatherClass);
+            v.registerWeatherDynamicController(this);
         } else if (choiceFromComboBox.equals("news")) {
             v.displayNews(m.newsClass);
             v.registerNewsDynamicController(this);

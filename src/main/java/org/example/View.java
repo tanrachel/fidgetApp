@@ -25,7 +25,9 @@ import javafx.embed.swing.JFXPanel;
 public class View extends JFrame {
     private JFrame mainFrame;
     private JComboBox choiceBox;
+    private JComboBox weatherChoiceBox;
     private JPanel contentPanel;
+    private JPanel weatherPanel;
     private JButton newsRefreshButton;
     private JButton redditRefreshButton;
     private MediaView redditVideoViewer = new MediaView();
@@ -56,6 +58,10 @@ public class View extends JFrame {
         return selectedOption;
     }
 
+    public String getWeatherLocation(){
+        String selectedOption = (String) this.weatherChoiceBox.getSelectedItem();
+        return selectedOption;
+    }
 
     private void buildGUI(){
         mainFrame = new JFrame("Fidgety");
@@ -78,23 +84,37 @@ public class View extends JFrame {
         mainFrame.pack();
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+    private JPanel weatherChoicePanel() {
+        // Spinner to determine how many input panels to generate
+        JPanel weatherChoicePanel = new JPanel();
+        String[] weatherLocation = {"Seattle","Los Angeles", "New York"};
+        this.weatherChoiceBox = new JComboBox<>(weatherLocation);
+        JLabel comboBoxTitle = new JLabel("LOCATION: ");
+//        JLabel comboBoxChoice = new JLabel(comboBox.getActionCommand());
+        weatherChoicePanel.add(comboBoxTitle);
+        weatherChoicePanel.add(this.weatherChoiceBox);
 
+        weatherChoicePanel.setPreferredSize(new Dimension(180,50));
+//        choicePanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
+        return weatherChoicePanel;
+    }
     public void displayWeather(Weather weather) {
         if (this.contentPanel != null) {
             this.contentPanel.removeAll();
         }
+        JPanel weatherChoicePanel = weatherChoicePanel();
+        this.contentPanel.add(weatherChoicePanel);
 
-        JPanel weatherPanel = new JPanel();
-        weatherPanel.add(Box.createVerticalGlue());
-
-        weatherPanel.setLayout(new BoxLayout(weatherPanel, BoxLayout.Y_AXIS));
+        JPanel weatherTempPanel = new JPanel();
+//        weatherTempPanel.add(Box.createVerticalGlue());
+        weatherTempPanel.setLayout(new BoxLayout(weatherTempPanel, BoxLayout.Y_AXIS));
 
         try {
             // Replace "your_image_url_here" with the actual image URL
             URL imageUrl = new URL(weather.getWeatherImageUrl());
             BufferedImage image = ImageIO.read(imageUrl);
             JLabel imageLabel = new JLabel(new ImageIcon(image));
-            weatherPanel.add(imageLabel);
+            weatherTempPanel.add(imageLabel);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,55 +136,49 @@ public class View extends JFrame {
         tempPanel.add(new JTextField(weather.getWeatherFeelsLike()));
         tempPanel.add(new JPanel());
 
-        weatherPanel.add(tempPanel);
-        weatherPanel.add(Box.createVerticalGlue());
+        weatherTempPanel.add(tempPanel);
+        weatherTempPanel.add(Box.createVerticalGlue());
+
+        this.weatherPanel = weatherTempPanel;
         this.contentPanel.add(weatherPanel);
         refreshPage();
     }
 
-//    public void displayWeather(Weather weather) {
-//        if (this.contentPanel != null) {
-//            this.contentPanel.removeAll();
-//        }
-//
-//        JPanel weatherPanel = new JPanel();
-//        weatherPanel.add(Box.createVerticalGlue());
-//
-//        weatherPanel.setLayout(new BoxLayout(weatherPanel, BoxLayout.Y_AXIS));
-//
-//        try {
-//            // Replace "your_image_url_here" with the actual image URL
-//            URL imageUrl = new URL(weather.getWeatherImageUrl());
-//            BufferedImage image = ImageIO.read(imageUrl);
-//            JLabel imageLabel = new JLabel(new ImageIcon(image));
-//            weatherPanel.add(imageLabel);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        // Temperature Panel
-//        JPanel tempPanel = new JPanel();
-//        tempPanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
-//        tempPanel.setSize(new Dimension(80,30));
-//        JLabel tempLabel = new JLabel("Temperature: ");
-//        tempPanel.add(tempLabel);
-//        tempPanel.add(new JTextField(weather.getWeatherTemp()));
-//        weatherPanel.add(tempPanel);
-//
-//        // Feels Like Panel
-//        JPanel feelsLikePanel = new JPanel();
-//
-//        feelsLikePanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
-//        JLabel feelsLikeLabel = new JLabel("Feels Like: ");
-//        feelsLikeLabel.setSize(new Dimension(80,30));
-//
-//        feelsLikePanel.add(feelsLikeLabel);
-//        feelsLikePanel.add(new JTextField(weather.getWeatherFeelsLike()));
-//        weatherPanel.add(feelsLikePanel);
-//        weatherPanel.add(Box.createVerticalGlue());
-//        this.contentPanel.add(weatherPanel);
-//        refreshPage();
-//    }
+    public void refreshWeatherPage(Weather weather){
+        this.weatherPanel.removeAll();
+        this.weatherPanel.setLayout(new BoxLayout(this.weatherPanel, BoxLayout.Y_AXIS));
+
+        try {
+            // Replace "your_image_url_here" with the actual image URL
+            URL imageUrl = new URL(weather.getWeatherImageUrl());
+            BufferedImage image = ImageIO.read(imageUrl);
+            JLabel imageLabel = new JLabel(new ImageIcon(image));
+            this.weatherPanel.add(imageLabel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Temperature Panel
+        JPanel tempPanel = new JPanel(new GridLayout(2,4,0,0));
+
+        tempPanel.add(new JPanel());
+        JLabel tempLabel = new JLabel("Temperature: ");
+        tempLabel.setHorizontalAlignment(JLabel.RIGHT);
+        tempPanel.add(tempLabel);
+        tempPanel.add(new JTextField(weather.getWeatherTemp()));
+        tempPanel.add(new JPanel());
+
+        tempPanel.add(new JPanel());
+        JLabel feelsLikeLabel = new JLabel("Feels Like: ");
+        feelsLikeLabel.setHorizontalAlignment(JLabel.RIGHT);
+        tempPanel.add(feelsLikeLabel);
+        tempPanel.add(new JTextField(weather.getWeatherFeelsLike()));
+        tempPanel.add(new JPanel());
+
+        this.weatherPanel.add(tempPanel);
+        refreshPage();
+    }
+
     private void refreshPage(){
         this.contentPanel.revalidate();
         this.contentPanel.repaint();
@@ -320,6 +334,14 @@ public class View extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.actionPerformedForNewsRefresh(e);
+            }
+        });
+    }
+    public void registerWeatherDynamicController(Controller controller) {
+        this.weatherChoiceBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.actionPerformedForWeatherComboBox(e);
             }
         });
     }

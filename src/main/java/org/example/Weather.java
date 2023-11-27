@@ -9,14 +9,18 @@ public class Weather implements JSONObjects{
     private WeatherObject weather = new WeatherObject();
     private String apiKey = "";
     private String url;
+    private String location = "Seattle";
     public Weather(String apiKey){
         this.apiKey = apiKey;
-        this.url = "http://api.openweathermap.org/data/2.5/weather?" +
-                "q=Seattle"+ "&appid="+apiKey+ "&units=metric";
+        this.url = "http://api.openweathermap.org/data/2.5/weather?";
+//                "q=Seattle"+ "&appid="+apiKey+ "&units=metric";
 
     }
     public String getUrl(){
-        return this.url;
+        return this.url+"q="+location+"&appid="+apiKey+"&units=metric";
+    }
+    public void setLocation(String location){
+        this.location = location;
     }
     public WeatherObject getWeather(){
         return this.weather;

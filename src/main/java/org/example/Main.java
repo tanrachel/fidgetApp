@@ -1,7 +1,6 @@
 package org.example;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.io.IOException;
-
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
@@ -9,6 +8,7 @@ public class Main {
         Dotenv dotenv = Dotenv.load();
         String apiKey = dotenv.get("W_API_KEY");
         String newsApiKey = dotenv.get("NEWS_API_KEY");
+
 
         HttpClient httpClient = new HttpClient();
         Reddit reddit = new Reddit();
@@ -25,6 +25,7 @@ public class Main {
             weather.unmarshallJson(weatherResponse);
             String newsResponse = httpClient.makeAPIRequest(news.getUrl());
             news.unmarshallJson(newsResponse);
+
 //            System.out.println(reddit);
 //            System.out.println("----------------------------");
 //            System.out.println(weather);
@@ -35,7 +36,7 @@ public class Main {
         }
         Model m = new Model(reddit,news,weather);
         View v = new View();
-        Controller c = new Controller(m,v);
+        Controller c = new Controller(m,v,httpClient);
         v.registerController(c);
     }
 
