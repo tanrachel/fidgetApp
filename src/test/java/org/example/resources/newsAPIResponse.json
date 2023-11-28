@@ -1,0 +1,21 @@
+{
+  "status": "ok",
+  "totalResults": 1241,
+  "articles":
+  [
+    {
+      "source":
+      {
+        "id": null,
+        "name": "Gizmodo.com"
+      },
+      "author": "Mack DeGeurin",
+      "title": "'Invasive' Google Keyword Search Warrants Get Court Greenlight, Here's Everything You Need to Know",
+      "description": "Colorado’s Supreme Court this week had the opportunity to hand down a historic judgment on the constitutionality of “reverse keyword search warrants,” a powerful new surveillance technique that grants law enforcement the ability to identify potential criminal…",
+      "url": "https://gizmodo.com/reverse-keyword-search-warrants-explainer-colorado-1850945867",
+      "urlToImage": "https://i.kinja-img.com/image/upload/c_fill,h_675,pg_1,q_80,w_1200/5e8c72a80aff7a9ca8a29014ab555ad6.jpg",
+      "publishedAt": "2023-10-20T19:15:00Z",
+      "content": "Colorados Supreme Court this week had the opportunity to hand down a historic judgment on the constitutionality of reverse keyword search warrants, a powerful new surveillance technique that grants l… [+15880 chars]"
+    }
+  ]
+}
