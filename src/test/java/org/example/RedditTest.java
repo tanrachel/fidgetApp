@@ -20,8 +20,8 @@ public class RedditTest extends TestCase {
         }
 
         testReddit.unmarshallJson(jsonFile);
-        String expectedResult = "title: The mic was in picture! url: https://v.redd.it/itdbrijgkzyb1/DASH_720.mp4?source=fallback\n" +
-                "title: Guy in my city thinks he's got the new traffic cameras cracked url: https://i.redd.it/p80ta4hwkzyb1.jpg\n";
+        String expectedResult = "title: typeOfContent: video Content:  title: The mic was in picture! url: https://v.redd.it/itdbrijgkzyb1/DASH_720.mp4?source=fallback\n" +
+                "title: typeOfContent: image Content:  title: Guy in my city thinks he's got the new traffic cameras cracked url: https://i.redd.it/p80ta4hwkzyb1.jpg\n";
         assertEquals(expectedResult,testReddit.toString());
 
     }

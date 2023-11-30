@@ -21,7 +21,7 @@ public class NewsTest extends TestCase {
         }
 
         testNews.unmarshallJson(jsonFile);
-        String expectedResult = "title: 'Invasive' Google Keyword Search Warrants Get Court Greenlight, Here's Everything You Need to Know content: Colorado’s Supreme Court this week had the opportunity to hand down a historic judgment on the constitutionality of “reverse keyword search warrants,” a powerful new surveillance technique that grants law enforcement the ability to identify potential criminal… url: https://gizmodo.com/reverse-keyword-search-warrants-explainer-colorado-1850945867\n";
+        String expectedResult = "title: typeOfContent: text Content: Colorado’s Supreme Court this week had the opportunity to hand down a historic judgment on the constitutionality of “reverse keyword search warrants,” a powerful new surveillance technique that grants law enforcement the ability to identify potential criminal… title: 'Invasive' Google Keyword Search Warrants Get Court Greenlight, Here's Everything You Need to Know url: https://gizmodo.com/reverse-keyword-search-warrants-explainer-colorado-1850945867 ";
         assertEquals(expectedResult,testNews.toString());
 
     }
