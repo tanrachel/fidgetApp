@@ -1,7 +1,7 @@
 package org.example;
-import io.github.cdimascio.dotenv.Dotenv;
 import java.io.IOException;
 
+import io.github.cdimascio.dotenv.Dotenv;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
@@ -26,24 +26,20 @@ public class Main {
             weather.unmarshallJson(weatherResponse);
             String newsResponse = httpClient.makeAPIRequest(news.getUrl());
             news.unmarshallJson(newsResponse);
-            String boredResponse = httpClient.makeAPIRequest(bored.getUrl());
+            String boredResponse = httpClient.makeAPIRequestWithHeaders(bored.getUrl(), bored.getHeaders());
             bored.unmarshallJson(boredResponse);
+
 //            System.out.println(reddit);
 //            System.out.println("----------------------------");
 //            System.out.println(weather);
 //            System.out.println("-----------------------------");
 //            System.out.println(news);
-//            System.out.println("-----------------------------");
-//            System.out.println(bored);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        Model m = new Model(reddit,news,weather, bored);
+        Model m = new Model(reddit,news,weather,bored);
         View v = new View();
-        Controller c = new Controller(m,v);
+        Controller c = new Controller(m,v,httpClient);
         v.registerController(c);
     }
-
-
 }

@@ -2,7 +2,6 @@ package org.example;
 import java.io.*;
 
 public class Model {
-    public static final Reddit BoredClass = null;
     Reddit redditClass;
     News newsClass;
     Weather weatherClass;
