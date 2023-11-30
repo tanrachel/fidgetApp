@@ -45,8 +45,8 @@ public class Bored {
     }
 
     public BoredPost popOutBoredFromList() {
-        BoredPost post =  this.listOfBoredPost.getFirst();
-        this.listOfBoredPost.removeFirst();
+        BoredPost post =  this.listOfBoredPost.get(0);
+        this.listOfBoredPost.remove(0);
         return post;
     }
 }
