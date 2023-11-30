@@ -34,22 +34,27 @@ public class Reddit implements ContentObject {
                 RedditPostData postData = post.getData();
                 String title = postData.getTitle();
                 boolean isVideo = postData.getIsVideo();
+
                 if (isVideo){
                     SecureMedia secureMedia = postData.getSecureMedia();
                     if (secureMedia != null) {
                         RedditVideo redditVideo = secureMedia.getRedditVideo();
                         if (redditVideo != null) {
                             String fallbackUrl = redditVideo.getFallbackUrl();
-                            Content redditObject = new Content("video",title, fallbackUrl, redditVideo.getHeight() ,redditVideo.getWidth(), postData.getIsVideo());
-                            redditPostList.add(redditObject);
+                            if (fallbackUrl != null) {
+                                Content redditObject = new Content("video",title, fallbackUrl, redditVideo.getHeight() ,redditVideo.getWidth(), postData.getIsVideo());
+                                redditPostList.add(redditObject);
+                            }
+
 
                         }
                     }
                 }else{
                     String imageURL = postData.getDestUrl();
-                    Content redditObject = new Content("image",title, imageURL,0,0, false);
-                    redditPostList.add(redditObject);
-
+                    if (imageURL != null){
+                        Content redditObject = new Content("image",title, imageURL,0,0, false);
+                        redditPostList.add(redditObject);
+                    }
                 }
             }
         } catch (Exception e) {

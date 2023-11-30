@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e00cbcf4-4e94-43a1-bfde-617805b46ae1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/BoredTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/BoredTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/resources/boredAPIResponse.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/resources/boredAPIResponse.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/final_project_jar/final_project.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/final_project_jar/final_project.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Reddit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Reddit.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +45,7 @@
     "WebServerToolWindowFactoryState": "false",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit3",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit3": "junit.framework.TestCase",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -70,7 +70,7 @@
       <recent name="org.example" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Run Main">
     <configuration name="Run Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
       <module name="final_project" />
