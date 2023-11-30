@@ -11,30 +11,25 @@ public class Main {
 
 
         HttpClient httpClient = new HttpClient();
-        Reddit reddit = new Reddit();
-        Weather weather = new Weather(apiKey);
-        News news = new News(newsApiKey);
+        ContentObject reddit = new Reddit();
+        ContentObject weather = new Weather(apiKey);
+        ContentObject news = new News(newsApiKey);
 
 
         try {
             // Make a request to the Reddit API and print the response
 
-            String redditAPIResponse = httpClient.makeAPIRequest(reddit.getUrl());
+            String redditAPIResponse = httpClient.makeAPIRequest(reddit.getAPIUrl());
             reddit.unmarshallJson(redditAPIResponse);
-            String weatherResponse = httpClient.makeAPIRequest(weather.getUrl());
+            String weatherResponse = httpClient.makeAPIRequest(weather.getAPIUrl());
             weather.unmarshallJson(weatherResponse);
-            String newsResponse = httpClient.makeAPIRequest(news.getUrl());
+            String newsResponse = httpClient.makeAPIRequest(news.getAPIUrl());
             news.unmarshallJson(newsResponse);
 
-//            System.out.println(reddit);
-//            System.out.println("----------------------------");
-//            System.out.println(weather);
-//            System.out.println("-----------------------------");
-//            System.out.println(news);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Model m = new Model(reddit,news,weather);
+        Model m = new Model(reddit, news, weather);
         View v = new View();
         Controller c = new Controller(m,v,httpClient);
         v.registerController(c);

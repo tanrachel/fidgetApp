@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e00cbcf4-4e94-43a1-bfde-617805b46ae1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/ContentObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FidgetApp_RFP.pages" beforeDir="false" afterPath="$PROJECT_DIR$/FidgetApp_RFP.pages" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/final_project_jar/final_project.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/final_project_jar/final_project.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/JSONObjects.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/News.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/News.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Reddit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Reddit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Weather.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Weather.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,12 +119,15 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/Reddit.java</url>
-          <line>29</line>
+          <line>25</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

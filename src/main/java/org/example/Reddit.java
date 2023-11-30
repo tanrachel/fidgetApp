@@ -5,22 +5,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Reddit implements JSONObjects {
-//    RedditListing redditListing;
-    List<RedditObject> redditPostList = new ArrayList<>();
+public class Reddit implements ContentObject {
+    List<Content> redditPostList = new ArrayList<>();
     private String url;
     public Reddit(){
         this.url = "https://www.reddit.com/r/funny/top.json?t=day";
     }
-    public String getUrl(){
+    public String getAPIUrl(){
         return this.url;
     }
-    public List<RedditObject> getRedditListing(){
-        return this.redditPostList;
-    }
-    public RedditObject popOutPostFromList(){
+    public Content getContent(){
         if (redditPostList.size() > 1){
-            RedditObject currentPost = redditPostList.get(0);
+            Content currentPost = redditPostList.get(0);
             redditPostList.remove(0);
             return currentPost;
         }else{
@@ -28,7 +24,7 @@ public class Reddit implements JSONObjects {
         }
     }
     @Override
-    public void unmarshallJson(String rawJson) {
+    public List<Content> unmarshallJson(String rawJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             RedditListing redditListing = objectMapper.readValue(rawJson, RedditListing.class);
@@ -44,14 +40,14 @@ public class Reddit implements JSONObjects {
                         RedditVideo redditVideo = secureMedia.getRedditVideo();
                         if (redditVideo != null) {
                             String fallbackUrl = redditVideo.getFallbackUrl();
-                            RedditObject redditObject = new RedditObject(title, fallbackUrl, redditVideo.getHeight() ,redditVideo.getWidth(), postData.getIsVideo());
+                            Content redditObject = new Content("video",title, fallbackUrl, redditVideo.getHeight() ,redditVideo.getWidth(), postData.getIsVideo());
                             redditPostList.add(redditObject);
 
                         }
                     }
                 }else{
                     String imageURL = postData.getDestUrl();
-                    RedditObject redditObject = new RedditObject(title, imageURL,0,0, false);
+                    Content redditObject = new Content("image",title, imageURL,0,0, false);
                     redditPostList.add(redditObject);
 
                 }
@@ -59,13 +55,14 @@ public class Reddit implements JSONObjects {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return redditPostList;
     }
 
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        for (RedditObject item : redditPostList) {
-            sb.append("title: "+item.getRedditPostTitle() + " url: "+ item.getRedditPostURL()+"\n");
+        for (Content item : redditPostList) {
+            sb.append("title: "+item.toString()+"\n");
         }
         return sb.toString();
     }
@@ -81,49 +78,6 @@ class RedditListing {
         return data;
     }
 
-    public void setData(RedditData data) {
-        this.data = data;
-    }
-}
-class RedditObject{
-    private String title;
-    private String media_url;
-    private float media_height;
-    private float media_width;
-    private boolean isVideo;
-
-    public String getRedditPostTitle(){
-        return this.title;
-    }
-    public String getRedditPostURL(){
-        return this.media_url;
-    }
-
-    public float getMedia_height() {
-        return media_height;
-    }
-
-    public float getMedia_width() {
-        return media_width;
-    }
-
-    public boolean isVideo() {
-        return isVideo;
-    }
-
-    public RedditObject(String title, String url, float height, float width, boolean isvideo){
-        this.title = title;
-        this.media_url = url;
-        this.media_height = height;
-        this.media_width = width;
-        this.isVideo = isvideo;
-    }
-    @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("title: "+this.title + " url: "+ this.media_url+"\n");
-        return sb.toString();
-    }
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)

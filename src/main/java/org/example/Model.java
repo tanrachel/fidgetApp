@@ -1,17 +1,13 @@
 package org.example;
-import java.io.*;
 
 public class Model {
-    Reddit redditClass;
-    News newsClass;
-    Weather weatherClass;
+    ContentObject redditClass;
+    ContentObject newsClass;
+    ContentObject weatherClass;
 
-    public Model(Reddit reddit, News news, Weather weather){
+    public Model(ContentObject reddit, ContentObject news, ContentObject weather){
         this.redditClass = reddit;
         this.newsClass = news;
         this.weatherClass = weather;
-    }
-    public WeatherObject getWeather(){
-        return weatherClass.getWeather();
     }
 }

@@ -28,16 +28,18 @@ class Controller {
 }
 
 class Model {
-    -Weather weather
-    -News news
-    -Reddit reddit
+    -ContentObject weather
+    -ContentObject news
+    -ContentObject reddit
 }
 
-interface JSONObject {
+interface ContentObject {
    +unmarshallJson(String json)
+   +getAPIUrl()
+   +getContent()
 }
 
-class Weather implements JSONObject {
+class Weather implements ContentObject {
     -WeatherObject weather
     -String apiKey
     -String url
@@ -48,7 +50,7 @@ class Weather implements JSONObject {
     +unmarshallJson(String json)
 }
 
-class News implements JSONObject {
+class News implements ContentObject{
         -List<NewsPost> listOfNewsPost
         -String apiKey
         -String url
@@ -58,7 +60,7 @@ class News implements JSONObject {
 
 }
 
-class Reddit implements JSONObject {
+class Reddit implements ContentObject {
         -List<RedditObject> redditPostList
         -String apiKey
         -String url
@@ -71,14 +73,12 @@ class HttpClient {
     +makeAPIrequest(String url)
 }
 
-Model --o Weather : has
-Model --o News : has
-Model --o Reddit : has
+Model --> ContentObject : has
+
 
 Controller --o View : has
 Controller --o Model : has
 
-HttpClient --> News : returns JSON object
-HttpClient --> Reddit : returns JSON object
-HttpClient --> Weather : returns JSON object
+HttpClient --> ContentObject : returns JSON
+
 @enduml

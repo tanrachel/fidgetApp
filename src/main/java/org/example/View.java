@@ -1,7 +1,5 @@
 package org.example;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -16,8 +14,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.CountDownLatch;
-
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 
@@ -98,23 +94,63 @@ public class View extends JFrame {
 //        choicePanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
         return weatherChoicePanel;
     }
-    public void displayWeather(Weather weather) {
+    public void displayWeather(ContentObject weather) {
         if (this.contentPanel != null) {
             this.contentPanel.removeAll();
         }
+
+        Content weatherContent = weather.getContent();
         JPanel weatherChoicePanel = weatherChoicePanel();
         this.contentPanel.add(weatherChoicePanel);
 
         JPanel weatherTempPanel = new JPanel();
+        this.weatherPanel = weatherTempPanel;
+
 //        weatherTempPanel.add(Box.createVerticalGlue());
         weatherTempPanel.setLayout(new BoxLayout(weatherTempPanel, BoxLayout.Y_AXIS));
 
         try {
             // Replace "your_image_url_here" with the actual image URL
-            URL imageUrl = new URL(weather.getWeatherImageUrl());
+            URL imageUrl = new URL(weatherContent.getIcon());
             BufferedImage image = ImageIO.read(imageUrl);
             JLabel imageLabel = new JLabel(new ImageIcon(image));
             weatherTempPanel.add(imageLabel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Temperature Panel
+        JPanel tempPanel = new JPanel(new GridLayout(2,4,10,10));
+
+        tempPanel.add(new JPanel());
+        JLabel tempLabel = new JLabel("Temperature: ");
+        tempLabel.setHorizontalAlignment(JLabel.RIGHT);
+        tempPanel.add(tempLabel);
+        tempPanel.add(new JTextField(weatherContent.getTemp()));
+        tempPanel.add(new JPanel());
+
+        tempPanel.add(new JPanel());
+        JLabel feelsLikeLabel = new JLabel("Feels Like: ");
+        feelsLikeLabel.setHorizontalAlignment(JLabel.RIGHT);
+        tempPanel.add(feelsLikeLabel);
+        tempPanel.add(new JTextField(weatherContent.getFeelsLike()));
+        tempPanel.add(new JPanel());
+
+        weatherTempPanel.add(tempPanel);
+        weatherTempPanel.add(Box.createVerticalGlue());
+
+        this.contentPanel.add(weatherPanel);
+        refreshPage();
+    }
+
+    public void refreshWeatherPage(Weather weather){
+
+        this.weatherPanel.removeAll();
+        try {
+            URL imageUrl = new URL(weather.getWeatherImageUrl());
+            BufferedImage image = ImageIO.read(imageUrl);
+            JLabel imageLabel = new JLabel(new ImageIcon(image));
+            this.weatherPanel.add(imageLabel);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,46 +172,10 @@ public class View extends JFrame {
         tempPanel.add(new JTextField(weather.getWeatherFeelsLike()));
         tempPanel.add(new JPanel());
 
-        weatherTempPanel.add(tempPanel);
-        weatherTempPanel.add(Box.createVerticalGlue());
-
-        this.weatherPanel = weatherTempPanel;
-        this.contentPanel.add(weatherPanel);
-        refreshPage();
-    }
-
-    public void refreshWeatherPage(Weather weather){
-        this.weatherPanel.removeAll();
-        this.weatherPanel.setLayout(new BoxLayout(this.weatherPanel, BoxLayout.Y_AXIS));
-
-        try {
-            // Replace "your_image_url_here" with the actual image URL
-            URL imageUrl = new URL(weather.getWeatherImageUrl());
-            BufferedImage image = ImageIO.read(imageUrl);
-            JLabel imageLabel = new JLabel(new ImageIcon(image));
-            this.weatherPanel.add(imageLabel);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Temperature Panel
-        JPanel tempPanel = new JPanel(new GridLayout(2,4,0,0));
-
-        tempPanel.add(new JPanel());
-        JLabel tempLabel = new JLabel("Temperature: ");
-        tempLabel.setHorizontalAlignment(JLabel.RIGHT);
-        tempPanel.add(tempLabel);
-        tempPanel.add(new JTextField(weather.getWeatherTemp()));
-        tempPanel.add(new JPanel());
-
-        tempPanel.add(new JPanel());
-        JLabel feelsLikeLabel = new JLabel("Feels Like: ");
-        feelsLikeLabel.setHorizontalAlignment(JLabel.RIGHT);
-        tempPanel.add(feelsLikeLabel);
-        tempPanel.add(new JTextField(weather.getWeatherFeelsLike()));
-        tempPanel.add(new JPanel());
-
         this.weatherPanel.add(tempPanel);
+        this.weatherPanel.add(Box.createVerticalGlue());
+        this.weatherPanel.revalidate();
+        this.weatherPanel.repaint();
         refreshPage();
     }
 
@@ -185,17 +185,17 @@ public class View extends JFrame {
         this.mainFrame.revalidate();
         this.mainFrame.repaint();
     }
-    public void displayNews(News news) {
+    public void displayNews(ContentObject news) {
         if (this.contentPanel != null) {
             this.contentPanel.removeAll();
         }
 
         JPanel newsPanel = new JPanel();
         newsPanel.setLayout(new BoxLayout(newsPanel, BoxLayout.Y_AXIS));
-        NewsPost currentNews = news.popOutNewsFromList();
+        Content currentNews = news.getContent();
 
         JTextArea textArea = new JTextArea(currentNews.getTitle()+"\n\n");
-        textArea.append(currentNews.getDescription()+"\n\n");
+        textArea.append(currentNews.getContentDescription()+"\n\n");
         textArea.append(currentNews.getUrl());
         textArea.setWrapStyleWord(true);
         textArea.setLineWrap(true);
@@ -221,8 +221,8 @@ public class View extends JFrame {
         }
     }
 
-    private void initFX(RedditObject video) {
-        Media media = new Media(video.getRedditPostURL());
+    private void initFX(Content video) {
+        Media media = new Media(video.getUrl());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
 
         if(jfxPanel.getScene()!= null){
@@ -231,10 +231,10 @@ public class View extends JFrame {
 
         redditVideoViewer.setMediaPlayer(mediaPlayer);
 
-        double widthscale = (500 / video.getMedia_width());
-        double heightscale = (500 / video.getMedia_height());
-        redditVideoViewer.setFitWidth(video.getMedia_width()*widthscale);
-        redditVideoViewer.setFitHeight(video.getMedia_height()*heightscale);
+        double widthscale = (500 / video.getMediaWidth());
+        double heightscale = (500 / video.getMediaHeight());
+        redditVideoViewer.setFitWidth(video.getMediaWidth()*widthscale);
+        redditVideoViewer.setFitHeight(video.getMediaHeight()*heightscale);
 
         StackPane root = new StackPane(redditVideoViewer);
         Scene scene = new Scene(root, 500, 500);
@@ -243,10 +243,9 @@ public class View extends JFrame {
         mediaPlayer.play();
     }
 
-    private JPanel displayRedditVideo(RedditObject currentPost){
+    private JPanel displayRedditVideo(Content currentPost){
 
         JPanel redditPanel = new JPanel();
-//        redditPanel.setPreferredSize(new Dimension((int)currentPost.getMedia_width(), (int) currentPost.getMedia_height()));
         redditPanel.setLayout(new BoxLayout(redditPanel, BoxLayout.Y_AXIS));
 
         redditPanel.addComponentListener(new ComponentAdapter() {
@@ -261,19 +260,18 @@ public class View extends JFrame {
             initFX(currentPost);});
 
         redditPanel.add(jfxPanel);
-//        redditPanel.setBorder(BorderFactory.createLineBorder(Color.black,2));
         return redditPanel;
     }
 
-    private JPanel displayRedditImage(RedditObject currentPost){
+    private JPanel displayRedditImage(Content currentPost){
         JPanel redditPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         redditPanel.setLayout(new BoxLayout(redditPanel, BoxLayout.Y_AXIS));
-        JLabel title = new JLabel(currentPost.getRedditPostTitle());
+        JLabel title = new JLabel(currentPost.getTitle());
         redditPanel.add(title);
         JLabel label = new JLabel();
 
         try {
-            URL imageUrl = new URL(currentPost.getRedditPostURL());
+            URL imageUrl = new URL(currentPost.getUrl());
             Image image = ImageIO.read(imageUrl);
 
             image = image.getScaledInstance(400,400 , Image.SCALE_SMOOTH);
@@ -288,12 +286,12 @@ public class View extends JFrame {
         return redditPanel;
     }
 
-    public void displayReddit(Reddit reddit) {
+    public void displayReddit(ContentObject reddit) {
         JPanel redditPanel;
         if (this.contentPanel != null) {
             this.contentPanel.removeAll();
         }
-        RedditObject currentPost = reddit.popOutPostFromList();
+        Content currentPost = reddit.getContent();
         boolean isVideo = currentPost.isVideo();
         if (isVideo){
             redditPanel = displayRedditVideo(currentPost);

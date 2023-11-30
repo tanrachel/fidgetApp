@@ -2,11 +2,11 @@ package org.example;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
 
-
-public class Weather implements JSONObjects{
-    private WeatherObject weather = new WeatherObject();
+public class Weather implements ContentObject {
+    private List<Content> weather = new ArrayList<>();
     private String apiKey = "";
     private String url;
     private String location = "Seattle";
@@ -16,84 +16,51 @@ public class Weather implements JSONObjects{
 //                "q=Seattle"+ "&appid="+apiKey+ "&units=metric";
 
     }
-    public String getUrl(){
+    public String getAPIUrl(){
         return this.url+"q="+location+"&appid="+apiKey+"&units=metric";
     }
     public void setLocation(String location){
         this.location = location;
     }
-    public WeatherObject getWeather(){
-        return this.weather;
+    public Content getContent(){
+        return weather.get(0);
     }
     public String getWeatherImageUrl(){
-        return weather.getIcon();
+        Content weatherContent = weather.get(0);
+        return weatherContent.Icon;
     }
     public String getWeatherTemp(){
-        return String.valueOf(weather.getTemp());
+        Content weatherContent = weather.get(0);
+        return String.valueOf(weatherContent.Temp);
     }
     public String getWeatherFeelsLike(){
-        return String.valueOf(weather.getFeels_like());
+        Content weatherContent = weather.get(0);
+        return String.valueOf(weatherContent.Feels_like);
     }
     @Override
-    public void unmarshallJson(String rawJson) {
+    public List<Content> unmarshallJson(String rawJson) {
+        WeatherJson weatherJson = new WeatherJson();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            WeatherJson weatherJson = objectMapper.readValue(rawJson, WeatherJson.class);
-//            prep our WeatherObject for ease of use later on
-            weather.setCityName(weatherJson.getCityName());
-            weather.setTemp(weatherJson.getTemperature().getTemp());
-            weather.setFeels_like(weatherJson.getTemperature().getFeels_like());
-            weather.setIcon(weatherJson.getWeatherIcon().getIcon());
+            weatherJson = objectMapper.readValue(rawJson, WeatherJson.class);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("City: " + this.weather.getCityName() + "\n");
-        sb.append("Temp: " + this.weather.getTemp() + "\n");
-        sb.append("Feels Like: " + this.weather.getFeels_like() + "\n");
-        sb.append("Weather Icon: "+ this.weather.getIcon()+"\n");
-        return sb.toString();
+        Content weatherContent = new Content("weather",
+                weatherJson.getCityName(),
+                weatherJson.getTemperature().getTemp(),
+                weatherJson.getTemperature().getFeels_like(),
+                "http://openweathermap.org/img/w/" + weatherJson.getWeatherIcon().getIcon() + ".png");
+//        refresh weather list so that when making a new call, it empties the list
+        weather = new ArrayList<>();
+        weather.add(weatherContent);
+        return weather;
     }
 
 
 }
-class WeatherObject{
-    private String cityName;
-    private float temp;
-    private float feels_like;
-    private String icon;
 
-    public void setCityName(String name){
-        this.cityName = name;
-    }
-    public void setTemp(float temp){
-        this.temp = temp;
-    }
-    public void setFeels_like(float feels_like){
-        this.feels_like = feels_like;
-    }
-    public void setIcon(String icon){
-        this.icon = "http://openweathermap.org/img/w/" + icon + ".png";
-
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public String getCityName(){
-        return this.cityName;
-    }
-    public float getTemp(){
-        return this.temp;
-    }
-    public float getFeels_like(){
-        return this.feels_like;
-    }
-}
 @JsonIgnoreProperties(ignoreUnknown = true)
 class WeatherJson{
     @JsonProperty("name")
