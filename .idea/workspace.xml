@@ -5,23 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e00cbcf4-4e94-43a1-bfde-617805b46ae1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/ContentObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/final_project_jar/final_project.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/final_project_jar/final_project.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Bored.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Bored.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/JSONObjects.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/News.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/News.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Reddit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Reddit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/View.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Weather.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Weather.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/NewsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/NewsTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/RedditTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/RedditTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/WeatherTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/WeatherTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uml.puml" beforeDir="false" afterPath="$PROJECT_DIR$/uml.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/BoredTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/BoredTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/resources/boredAPIResponse.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/resources/boredAPIResponse.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +45,7 @@
     "WebServerToolWindowFactoryState": "false",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit3",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit3": "junit.framework.TestCase",
-    "git-widget-placeholder": "Merging master",
+    "git-widget-placeholder": "master",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -84,7 +70,7 @@
       <recent name="org.example" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Run Main">
+  <component name="RunManager">
     <configuration name="Run Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
       <module name="final_project" />

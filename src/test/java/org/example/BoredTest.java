@@ -22,8 +22,8 @@ public class BoredTest extends TestCase {
         testBored.unmarshallJson(jsonFile);
     
         // Update the expected result based on the expected structure of your Bored class
-        String expectedResult = "title: test-API";
-        assertEquals(expectedResult, testBored.toString());
+        String expectedResult = "After the Eiffel Tower was built, one person was killed during the installation of the lifts. No one was killed during the actual construction of the tower";
+        assertEquals(expectedResult, testBored.getContent().getContentDescription());
     }
 
     

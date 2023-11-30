@@ -18,6 +18,7 @@ public class Bored implements ContentObject{
         return "title: " + title;
     }
     public List<Content> unmarshallJson(String boredResponse) {
+        System.out.println(boredResponse);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             BoredPost[] boredJson = objectMapper.readValue(boredResponse, BoredPost[].class);
