@@ -40,32 +40,42 @@ interface ContentObject {
 }
 
 class Weather implements ContentObject {
-    -WeatherObject weather
+    -List<Content> weather
     -String apiKey
     -String url
-    +getUrl()
+    +getAPIUrl()
     +getWeatherImageUrl()
     +getWeatherTemp()
     +getWeatherFeelsLike()
+    +getContent()
     +unmarshallJson(String json)
 }
 
 class News implements ContentObject{
-        -List<NewsPost> listOfNewsPost
+        -List<Content> listOfNewsPost
         -String apiKey
         -String url
-        +getUrl()
-        +popOutNewsFromList()
+        +getAPIUrl()
+        +getContent()
         +unmarshallJson(String json)
 
 }
 
 class Reddit implements ContentObject {
-        -List<RedditObject> redditPostList
+        -List<Content> redditPostList
         -String apiKey
         -String url
-        +getUrl()
-        +popOutPostFromList()
+        +getAPIUrl()
+        +getContent()
+        +unmarshallJson(String json)
+}
+
+class Bored implements ContentObject {
+        -List<Content> factList
+        -String apiKey
+        -String url
+        +getAPIUrl()
+        +getContent()
         +unmarshallJson(String json)
 }
 

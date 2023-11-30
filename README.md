@@ -30,4 +30,4 @@ You should be able to trigger the app to launch using
 run-fidgetapp
 ```
 # UML Diagrams
-[![Diagram Image Link](https://tinyurl.com/yta248cx)](https://tinyurl.com/yta248cx)<!--![Diagram Image Link](./uml.puml)-->
+[![Diagram Image Link](https://tinyurl.com/yukc5b2h)](https://tinyurl.com/yukc5b2h)<!--![Diagram Image Link](./uml.puml)-->
