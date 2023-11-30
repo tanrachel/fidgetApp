@@ -8,12 +8,13 @@ public class Main {
         Dotenv dotenv = Dotenv.load();
         String apiKey = dotenv.get("W_API_KEY");
         String newsApiKey = dotenv.get("NEWS_API_KEY");
-
+        String boredApiKey = dotenv.get("BORED_API_KEY");
 
         HttpClient httpClient = new HttpClient();
         ContentObject reddit = new Reddit();
         ContentObject weather = new Weather(apiKey);
         ContentObject news = new News(newsApiKey);
+        ContentObject bored = new Bored(boredApiKey);
 
 
         try {
@@ -25,11 +26,13 @@ public class Main {
             weather.unmarshallJson(weatherResponse);
             String newsResponse = httpClient.makeAPIRequest(news.getAPIUrl());
             news.unmarshallJson(newsResponse);
+            String boredResponse = httpClient.makeAPIRequestWithHeaders(bored.getAPIUrl(), ((Bored)bored).getHeaders());
+            bored.unmarshallJson(boredResponse);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Model m = new Model(reddit, news, weather);
+        Model m = new Model(reddit, news, weather,bored);
         View v = new View();
         Controller c = new Controller(m,v,httpClient);
         v.registerController(c);

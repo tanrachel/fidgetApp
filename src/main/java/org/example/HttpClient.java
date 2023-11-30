@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpClient {
     /**
@@ -26,6 +28,42 @@ public class HttpClient {
             // Open a connection to the Reddit API
             connection = (HttpURLConnection) apiURL.openConnection();
             connection.setRequestMethod("GET");
+
+            // Read the response from the Reddit API
+            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+        } finally {
+            // Close the connection and reader resources
+            if (connection != null) {
+                connection.disconnect();
+            }
+            if (reader != null) {
+                reader.close();
+            }
+        }
+
+        return response.toString();
+    }
+
+    public static String makeAPIRequestWithHeaders(String url, HashMap<String, String> headers) throws IOException {
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+        StringBuilder response = new StringBuilder();
+
+        try {
+            // Create a URL object from the provided URL string
+            URL apiURL = new URL(url);
+
+            // Open a connection to the Reddit API
+            connection = (HttpURLConnection) apiURL.openConnection();
+            connection.setRequestMethod("GET");
+
+            for (Map.Entry<String, String> set: headers.entrySet()) {
+                connection.setRequestProperty(set.getKey(), set.getValue());
+            }
 
             // Read the response from the Reddit API
             reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

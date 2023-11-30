@@ -26,6 +26,7 @@ public class View extends JFrame {
     private JPanel weatherPanel;
     private JButton newsRefreshButton;
     private JButton redditRefreshButton;
+    private JButton boredRefreshButton;
     private MediaView redditVideoViewer = new MediaView();
     private JFXPanel jfxPanel = new JFXPanel();
 
@@ -343,6 +344,42 @@ public class View extends JFrame {
             }
         });
     }
-}
 
+    public void displayBored(Bored bored) {
+        if (this.contentPanel != null) {
+            this.contentPanel.removeAll();
+        }
+
+        JPanel boredPannel = new JPanel();
+        boredPannel.setLayout(new BoxLayout(boredPannel, BoxLayout.Y_AXIS));
+        Content currentBored = bored.getContent();
+
+        JTextArea textArea = new JTextArea(currentBored.getContentDescription());
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(500,400));
+        boredPannel.add(scrollPane);
+
+        // Create a panel for the button
+        JPanel buttonPanel = new JPanel();
+        this.boredRefreshButton = new JButton("Next");
+        buttonPanel.add(this.boredRefreshButton);
+
+        // Add the button panel to the main newsPanel
+        boredPannel.add(buttonPanel);
+
+        this.contentPanel.add(boredPannel);
+        refreshPage();
+    }
+
+    public void registerBoredDynamicController(Controller controller) {
+        this.boredRefreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.actionPerformedForBoredRefresh(e);
+            }
+        });
+    }
+}
 

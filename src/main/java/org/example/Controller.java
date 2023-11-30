@@ -30,6 +30,7 @@ public class Controller implements ActionListener {
         }
         v.refreshWeatherPage((Weather)m.weatherClass);
     }
+
     public void actionPerformedForComboBox(ActionEvent e) {
         String choiceFromComboBox = v.getChoice();
         if(choiceFromComboBox.equals("weather")){
@@ -42,6 +43,10 @@ public class Controller implements ActionListener {
         } else if (choiceFromComboBox.equals("reddit")) {
             v.displayReddit(m.redditClass);
             v.registerRedditDynamicController(this);
+
+        } else if (choiceFromComboBox.equals("i'm bored")) {
+            v.displayBored((Bored)m.boredClass);
+            v.registerBoredDynamicController(this);
         }
         v.removeInitialChoiceComboBox();
     }
@@ -54,7 +59,10 @@ public class Controller implements ActionListener {
     public void actionPerformedForNewsRefresh(ActionEvent e){
         v.displayNews(m.newsClass);
         v.registerNewsDynamicController(this);
+    }
 
-
+    public void actionPerformedForBoredRefresh(ActionEvent e){
+        v.displayBored((Bored)m.boredClass);
+        v.registerBoredDynamicController(this);
     }
 }
