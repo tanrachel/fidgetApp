@@ -1,6 +1,4 @@
 package org.example;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,14 +21,14 @@ public class Controller implements ActionListener {
 
     public void actionPerformedForWeatherComboBox(ActionEvent e){
         String weatherLocation = v.getWeatherLocation();
-        m.weatherClass.setLocation(weatherLocation);
+        ((Weather)m.weatherClass).setLocation(weatherLocation);
         try {
-            String weatherResponse = httpClient.makeAPIRequest(m.weatherClass.getUrl());
+            String weatherResponse = httpClient.makeAPIRequest(m.weatherClass.getAPIUrl());
             m.weatherClass.unmarshallJson(weatherResponse);
         }catch (Exception exception){
             exception.printStackTrace();
         }
-        v.refreshWeatherPage(m.weatherClass);
+        v.refreshWeatherPage((Weather)m.weatherClass);
     }
 
     public void actionPerformedForComboBox(ActionEvent e) {
@@ -47,7 +45,7 @@ public class Controller implements ActionListener {
             v.registerRedditDynamicController(this);
 
         } else if (choiceFromComboBox.equals("i'm bored")) {
-            v.displayBored(m.boredClass);
+            v.displayBored((Bored)m.boredClass);
             v.registerBoredDynamicController(this);
         }
         v.removeInitialChoiceComboBox();
@@ -64,7 +62,7 @@ public class Controller implements ActionListener {
     }
 
     public void actionPerformedForBoredRefresh(ActionEvent e){
-        v.displayBored(m.boredClass);
+        v.displayBored((Bored)m.boredClass);
         v.registerBoredDynamicController(this);
     }
 }

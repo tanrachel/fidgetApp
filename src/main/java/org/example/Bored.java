@@ -1,33 +1,34 @@
 package org.example;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
-
+import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Bored {
+public class Bored implements ContentObject{
     private String title;
     private String url;
     private HashMap<String, String> headers;
-    private ArrayList<BoredPost> listOfBoredPost; 
+    private List<Content> listOfBoredPost = new ArrayList<>();
 
     @Override
     public String toString() {
         return "title: " + title;
     }
-    public void unmarshallJson(String boredResponse) {
+    public List<Content> unmarshallJson(String boredResponse) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             BoredPost[] boredJson = objectMapper.readValue(boredResponse, BoredPost[].class);
-            this.listOfBoredPost = new ArrayList<BoredPost>();
             for (int i = 0; i < boredJson.length; i++) {
-                this.listOfBoredPost.add(boredJson[i]);
+                Content boredContent = new Content("string", boredJson[i].getFact(), "", "");
+                this.listOfBoredPost.add(boredContent);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return listOfBoredPost;
     }
     public Bored(String boredApiKey) {
         this.url = "https://api.api-ninjas.com/v1/facts?limit=25";
@@ -36,7 +37,7 @@ public class Bored {
         this.headers.put("accept", "application/json");
     }
 
-    public String getUrl() {
+    public String getAPIUrl() {
         return this.url;
     }
 
@@ -44,10 +45,14 @@ public class Bored {
         return this.headers;
     }
 
-    public BoredPost popOutBoredFromList() {
-        BoredPost post =  this.listOfBoredPost.get(0);
-        this.listOfBoredPost.remove(0);
-        return post;
+    public Content getContent() {
+        if (listOfBoredPost.size() > 1){
+            Content currentPost = listOfBoredPost.get(0);
+            listOfBoredPost.remove(0);
+            return currentPost;
+        }else{
+            return listOfBoredPost.get(0);
+        }
     }
 }
 

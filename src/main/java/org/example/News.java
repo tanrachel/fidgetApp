@@ -3,21 +3,21 @@ package org.example;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.List;
+import java.util.ArrayList;
 
-public class News implements JSONObjects{
+public class News implements ContentObject {
     private String url;
-    private List<NewsPost> listOfNewsPost;
     public News(String newsApiKey){
         this.url = "https://newsapi.org/v2/top-headlines?country=us&apiKey="+newsApiKey;
     }
-    public String getUrl(){
+    private List<Content> listOfNewsPost = new ArrayList<>();
+    public String getAPIUrl(){
         return this.url;
     }
-    public NewsPost popOutNewsFromList(){
+    public Content getContent(){
         if (listOfNewsPost.size() > 1){
-            NewsPost currentPost = listOfNewsPost.get(0);
+            Content currentPost = listOfNewsPost.get(0);
             listOfNewsPost.remove(0);
             return currentPost;
         }else{
@@ -25,22 +25,25 @@ public class News implements JSONObjects{
         }
     }
     @Override
-    public void unmarshallJson(String rawJson) {
+    public List<Content> unmarshallJson(String rawJson) {
+        NewsJson newsJson = new NewsJson();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            NewsJson newsJson = objectMapper.readValue(rawJson, NewsJson.class);
-            listOfNewsPost = newsJson.getListOfNewsPosts();
+            newsJson = objectMapper.readValue(rawJson, NewsJson.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        for(NewsPost post: newsJson.getListOfNewsPosts()){
+            Content newsContent = new Content("text", post.getDescription(), post.getTitle(), post.getUrl());
+            listOfNewsPost.add(newsContent);
+        }
+        return listOfNewsPost;
     }
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        for (NewsPost post: listOfNewsPost){
-            sb.append("title: " + post.getTitle() + " ");
-            sb.append("content: "+ post.getDescription()+ " ");
-            sb.append("url: "+ post.getUrl() +"\n");
+        for (Content post: listOfNewsPost){
+            sb.append("title: " + post.toString() + " ");
         }
         return sb.toString();
     }

@@ -28,42 +28,54 @@ class Controller {
 }
 
 class Model {
-    -Weather weather
-    -News news
-    -Reddit reddit
+    -ContentObject weather
+    -ContentObject news
+    -ContentObject reddit
 }
 
-interface JSONObject {
+interface ContentObject {
    +unmarshallJson(String json)
+   +getAPIUrl()
+   +getContent()
 }
 
-class Weather implements JSONObject {
-    -WeatherObject weather
+class Weather implements ContentObject {
+    -List<Content> weather
     -String apiKey
     -String url
-    +getUrl()
+    +getAPIUrl()
     +getWeatherImageUrl()
     +getWeatherTemp()
     +getWeatherFeelsLike()
+    +getContent()
     +unmarshallJson(String json)
 }
 
-class News implements JSONObject {
-        -List<NewsPost> listOfNewsPost
+class News implements ContentObject{
+        -List<Content> listOfNewsPost
         -String apiKey
         -String url
-        +getUrl()
-        +popOutNewsFromList()
+        +getAPIUrl()
+        +getContent()
         +unmarshallJson(String json)
 
 }
 
-class Reddit implements JSONObject {
-        -List<RedditObject> redditPostList
+class Reddit implements ContentObject {
+        -List<Content> redditPostList
         -String apiKey
         -String url
-        +getUrl()
-        +popOutPostFromList()
+        +getAPIUrl()
+        +getContent()
+        +unmarshallJson(String json)
+}
+
+class Bored implements ContentObject {
+        -List<Content> factList
+        -String apiKey
+        -String url
+        +getAPIUrl()
+        +getContent()
         +unmarshallJson(String json)
 }
 
@@ -71,14 +83,12 @@ class HttpClient {
     +makeAPIrequest(String url)
 }
 
-Model --o Weather : has
-Model --o News : has
-Model --o Reddit : has
+Model --> ContentObject : has
+
 
 Controller --o View : has
 Controller --o Model : has
 
-HttpClient --> News : returns JSON object
-HttpClient --> Reddit : returns JSON object
-HttpClient --> Weather : returns JSON object
+HttpClient --> ContentObject : returns JSON
+
 @enduml

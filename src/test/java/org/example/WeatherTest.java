@@ -24,6 +24,10 @@ public class WeatherTest extends TestCase {
                 "Temp: 8.39\n" +
                 "Feels Like: 6.5\n" +
                 "Weather Icon: http://openweathermap.org/img/w/03d.png\n";
-        assertEquals(expectedResult,testWeather.toString());
+        String actualResult = "City: " +testWeather.getContent().getCityName()+"\n"+
+                "Temp: "+ testWeather.getContent().getTemp() +"\n"+
+                "Feels Like: " + testWeather.getContent().getFeelsLike()+"\n"+
+                "Weather Icon: "+ testWeather.getContent().getIcon()+"\n";
+        assertEquals(expectedResult,actualResult);
     }
 }
