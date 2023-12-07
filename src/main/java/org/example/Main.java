@@ -1,6 +1,9 @@
 package org.example;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
@@ -19,9 +22,18 @@ public class Main {
 
         try {
             // Make a request to the Reddit API and print the response
+            String jsonFilePath = "src/test/java/org/example/resources/redditTest.json";
+            String jsonFile = "";
 
+            try {
+                byte[] bytes = Files.readAllBytes(Paths.get(jsonFilePath));
+                jsonFile = new String(bytes);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             String redditAPIResponse = httpClient.makeAPIRequest(reddit.getAPIUrl());
-            reddit.unmarshallJson(redditAPIResponse);
+            reddit.unmarshallJson(jsonFile);
             String weatherResponse = httpClient.makeAPIRequest(weather.getAPIUrl());
             weather.unmarshallJson(weatherResponse);
             String newsResponse = httpClient.makeAPIRequest(news.getAPIUrl());
