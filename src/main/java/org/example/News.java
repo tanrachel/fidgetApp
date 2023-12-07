@@ -35,7 +35,9 @@ public class News implements ContentObject {
         }
         for(NewsPost post: newsJson.getListOfNewsPosts()){
             Content newsContent = new Content("text", post.getDescription(), post.getTitle(), post.getUrl());
-            listOfNewsPost.add(newsContent);
+            if (post.getDescription() != null && !(post.getTitle().equals("[Removed]"))){
+                listOfNewsPost.add(newsContent);
+            }
         }
         return listOfNewsPost;
     }
