@@ -39,3 +39,22 @@ run-fidgetapp
 ```
 # UML Diagrams
 [![Diagram Image Link](https://tinyurl.com/yukc5b2h)](https://tinyurl.com/yukc5b2h)<!--![Diagram Image Link](./uml.puml)-->
+
+## Project Details
+### Design 
+The project is designed using the MVC pattern, 
+the model is the data that is being fetched from the APIs, the view is the UI and the controller is the logic 
+that is used to fetch the data and update the view.
+
+The model takes in ContentObject interface, this ensures that all future features added 
+will have to implement the interface and provide the necessary methods to be able to be displayed on the UI.
+
+### Project Setup 
+#### 1. CI/CD
+Another highlight of this project was playing around with github's CI pipeline. This is done by using github workflows and 
+using maven. The script is located in .github/workflows/maven.yml. The script is triggered on every push to the master branch
+and ensures that the newly pushed version of the code is able to build and pass local tests. 
+#### 2. Bash script 
+While exploring how to better package the app into something that is more easily run, I played with bash script to streamline
+the process of running the app. The script is located in the root directory and is called run-fidgetapp.sh. The script utilizes
+maven to compile the app and then assign an alias to a line of maven script that would trigger the app to start. 
