@@ -13,6 +13,7 @@ social media and get carried away from their tasks.
 ```
 NEWS_API_KEY={news api key: https://newsapi.org/}
 W_API_KEY={weatheropenapi key: https://openweathermap.org/api}
+BORED_API_KEY = {fact api key: https://api-ninjas.com/api/facts}
 ```
 ### 3. Ensure you have maven installed
 ```

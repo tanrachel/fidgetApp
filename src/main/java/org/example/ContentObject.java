@@ -1,6 +1,8 @@
 package org.example;
 import java.util.List;
 
+//ContentObject will enforce rule for all feature objects (ie. Reddit, News, Weather, Bored) to implement mandatory methods
+//Content Type will be the object that all feature objects will store their information in after unmarshalling from API endpoint
 interface ContentObject {
     public String getAPIUrl();
     public List<Content> unmarshallJson(String rawJson);

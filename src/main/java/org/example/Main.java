@@ -21,7 +21,7 @@ public class Main {
 
 
         try {
-            // Make a request to the Reddit API and print the response
+            // test reddit json
             String jsonFilePath = "src/test/java/org/example/resources/redditTest.json";
             String jsonFile = "";
 
@@ -33,7 +33,7 @@ public class Main {
                 throw new RuntimeException(e);
             }
             String redditAPIResponse = httpClient.makeAPIRequest(reddit.getAPIUrl());
-            reddit.unmarshallJson(jsonFile);
+            reddit.unmarshallJson(redditAPIResponse);
             String weatherResponse = httpClient.makeAPIRequest(weather.getAPIUrl());
             weather.unmarshallJson(weatherResponse);
             String newsResponse = httpClient.makeAPIRequest(news.getAPIUrl());
