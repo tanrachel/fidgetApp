@@ -5,12 +5,13 @@ The goal of the app is to help with context switching during development, the id
 is to only provide bitesize content that is limited so that users don't become distracted scrolling on 
 social media and get carried away from their tasks. 
 
-![imbored.png](src%2Fmain%2Fresources%2Fimbored.png) ![news.png](src%2Fmain%2Fresources%2Fnews.png) ![reddit.png](src%2Fmain%2Fresources%2Freddit.png) ![weather.png](src%2Fmain%2Fresources%2Fweather.png)
+<p align="center">
+  <img src="src/main/resources/imbored.png" width="200" />
+  <img src="src/main/resources/news.png" width="200" /> 
+  <img src="src/main/resources/reddit.png" width="200" />
+  <img src="src/main/resources/weather.png" width="200" />
+</p>
 
-
-[//]: # (![imbored.png]&#40;src%2Fmain%2Fresources%2Fimbored.png&#41;  ![news.png]&#40;src%2Fmain%2Fresources%2Fnews.png&#41; )
-
-[//]: # (![reddit.png]&#40;src%2Fmain%2Fresources%2Freddit.png&#41; ![weather.png]&#40;src%2Fmain%2Fresources%2Fweather.png&#41;)
 ## How to use
 ### 1. Git pull repository to local 
 ### 2. Set up environment variables
