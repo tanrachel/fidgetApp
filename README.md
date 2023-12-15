@@ -54,6 +54,9 @@ will have to implement the interface and provide the necessary methods to be abl
 Another highlight of this project was playing around with github's CI pipeline. This is done by using github workflows and 
 using maven. The script is located in .github/workflows/maven.yml. The script is triggered on every push to the master branch
 and ensures that the newly pushed version of the code is able to build and pass local tests. 
+
+![cicd.png](src%2Fmain%2Fresources%2Fcicd.png)
+
 #### 2. Bash script 
 While exploring how to better package the app into something that is more easily run, I played with bash script to streamline
 the process of running the app. The script is located in the root directory and is called run-fidgetapp.sh. The script utilizes
